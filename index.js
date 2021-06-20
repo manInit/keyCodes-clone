@@ -5,6 +5,7 @@ const keyElem = document.getElementById('e.key'),
   mainElem = document.getElementsByClassName('main__key')[0],
   alertContainer = document.getElementsByClassName('alerts__container')[0];
 
+const spaceDescription = '(Space character)';
 
 function showCopyAlert() {
   const alertElem = document.createElement('div');
@@ -44,7 +45,8 @@ function clickOnCardsHandler(e) {
   e.preventDefault();  
 
   const card = e.target.closest('.card');
-  const text = card.querySelector('.card__content p').innerText;
+  let text = card.querySelector('.card__content p').innerText;
+  if (text === spaceDescription) text = ' ';
 
   navigator.clipboard.writeText(text)
   .then(showCopyAlert)
@@ -56,7 +58,7 @@ function clickOnCardsHandler(e) {
 function writeKeyOnCards(code, key, location, which) {
   codeElem.innerText = code;
   
-  if (code === 'Space') keyElem.innerText = '(Space character)';
+  if (code === 'Space') keyElem.innerText = spaceDescription;
   else keyElem.innerText = key;
   
   locElem.innerText = location;
@@ -73,9 +75,9 @@ document.body.addEventListener('keydown', e => {
   once: true
 });
 
-document.getElementsByClassName('cards')[0].addEventListener('click', clickOnCardsHandler);
-
 document.body.addEventListener('keydown', e => {
   e.preventDefault();
   writeKeyOnCards(e.code, e.key, e.location, e.which);
 });
+
+document.getElementsByClassName('cards')[0].addEventListener('click', clickOnCardsHandler);
