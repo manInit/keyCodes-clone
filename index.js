@@ -22,9 +22,9 @@ function showCopyAlert() {
   }];
 
   const animate = alertElem.animate(transition, {
-      duration: 700,
-      easing: 'ease-out'
-    });
+    duration: 700,
+    easing: 'ease-out'
+  });
   
   setTimeout(() => {
     animate.reverse();
