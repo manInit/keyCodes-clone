@@ -1,27 +1,29 @@
-const key = document.getElementById('e.key'),
-  loc = document.getElementById('e.location'),
-  which = document.getElementById('e.which'),
-  code = document.getElementById('e.code'),
-  main = document.getElementsByClassName('main__key')[0],
-  alertBlock = document.getElementsByClassName('alerts__container')[0];
+const keyElem = document.getElementById('e.key'),
+  locElem = document.getElementById('e.location'),
+  whichElem = document.getElementById('e.which'),
+  codeElem = document.getElementById('e.code'),
+  mainElem = document.getElementsByClassName('main__key')[0],
+  alertContainer = document.getElementsByClassName('alerts__container')[0];
 
 
-function copyAlert() {
+function showCopyAlert() {
   const alertElem = document.createElement('div');
   alertElem.textContent = 'Text was copied';
   alertElem.classList.add('alert');
-  alertBlock.appendChild(alertElem);
+  alertContainer.appendChild(alertElem);
   
-  const animate = alertElem.animate(
-    [
-      {opacity: 0, transform: 'translate(400px, 0)'},
-      {opacity: 1, transform: 'translate(0, 0)'},
-    ],
-    {
+  const transition = [{
+    opacity: 0, 
+    transform: 'translate(400px, 0)'
+  },{
+    opacity: 1, 
+    transform: 'translate(0, 0)'
+  }];
+
+  const animate = alertElem.animate(transition, {
       duration: 700,
       easing: 'ease-out'
-    }
-  );
+    });
   
   setTimeout(() => {
     animate.reverse();
@@ -31,37 +33,49 @@ function copyAlert() {
   }, 1000);
 };
 
-document.body.addEventListener('keydown', e => {
-  e.preventDefault();
+
+function showMainContent() {
   document.getElementById('startScreen').remove();
   document.getElementsByClassName('container')[0].style.display = 'flex';
-}, {once: true});
+}
 
-document.getElementsByClassName('cards')[0].addEventListener('click', e => {
-    
+function clickOnCardsHandler(e) {
   if (!e.target.closest('.card') || e.target.tagName === 'A') return;
-  e.preventDefault();
+  e.preventDefault();  
 
   const card = e.target.closest('.card');
   const text = card.querySelector('.card__content p').innerText;
 
   navigator.clipboard.writeText(text)
-  .then(copyAlert)
+  .then(showCopyAlert)
   .catch(err => {
-      console.log('Something went wrong', err);
+      console.log('Something went wrong', err.message);
   });
-});
+}
+
+function writeKeyOnCards(code, key, location, which) {
+  codeElem.innerText = code;
+  
+  if (code === 'Space') keyElem.innerText = '(Space character)';
+  else keyElem.innerText = key;
+  
+  locElem.innerText = location;
+  whichElem.innerText = which;
+  mainElem.innerText = which;
+}
+
+
 
 document.body.addEventListener('keydown', e => {
   e.preventDefault();
-  
-  code.innerText = e.code;
-  
-  if (e.code === 'Space') key.innerText = '(Space character)';
-  else key.innerText = e.key
-  
-  loc.innerText = e.location;
-  which.innerText = e.which;
-  main.innerText = e.which;
-  
+  showMainContent();
+}, {
+  once: true
+});
+
+document.getElementsByClassName('cards')[0].addEventListener('click', clickOnCardsHandler);
+
+document.body.addEventListener('keydown', e => {
+  e.preventDefault();
+  writeKeyOnCards(e.code, e.key, e.location, e.which);
 });

@@ -16,7 +16,7 @@ body {
 a {
   text-decoration: none;
 }
-
+/* main styles */
 .container {
   display: none;
   height: 100%;
@@ -96,7 +96,6 @@ a {
 
 .card__link {
   position: absolute;
-  justify-self: flex-end;
   color: #6597b2;
   font-size: 12px;
   right: 5px;
