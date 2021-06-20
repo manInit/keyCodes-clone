@@ -66,7 +66,11 @@ function writeKeyOnCards(code, key, location, which) {
   mainElem.innerText = which;
 }
 
-
+//theme = 'dark'|'light'
+function switchTheme(theme) {
+  localStorage.setItem('theme', theme);
+  document.documentElement.setAttribute('data-theme', theme);
+}
 
 document.body.addEventListener('keydown', e => {
   e.preventDefault();
@@ -82,18 +86,14 @@ document.body.addEventListener('keydown', e => {
 
 document.getElementsByClassName('cards')[0].addEventListener('click', clickOnCardsHandler);
 
-
 document.addEventListener('DOMContentLoaded', e => {
   const themeSwitcher = document.getElementById('switcherThemeCheck');
   let theme = localStorage.getItem('theme') ?? 'light';
   themeSwitcher.checked = theme === 'dark';
   
   document.documentElement.setAttribute('data-theme', theme);
-  
 
   themeSwitcher.addEventListener('change', e => {
-    const switchToTheme = e.currentTarget.checked ? 'dark' : 'light';
-    localStorage.setItem('theme', switchToTheme);
-    document.documentElement.setAttribute('data-theme', switchToTheme);
+    switchTheme(e.currentTarget.checked ? 'dark' : 'light');
   })
 });
