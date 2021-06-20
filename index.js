@@ -81,3 +81,15 @@ document.body.addEventListener('keydown', e => {
 });
 
 document.getElementsByClassName('cards')[0].addEventListener('click', clickOnCardsHandler);
+
+
+
+document.addEventListener('DOMContentLoaded', e => {
+  document.documentElement.setAttribute('data-theme', 'light');
+  const themeSwitcher = document.getElementById('switcherThemeCheck');
+
+  themeSwitcher.addEventListener('change', e => {
+    const switchToTheme = e.currentTarget.checked ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', switchToTheme);
+  })
+});
